@@ -3,5 +3,5 @@
   "MongoDBHost" : "mongo",
   "MongoDBUser" : "",
   "MongoDBPwd"  : "",
-  "Database"    : "users"
+  "Database"    : "blog"
 }

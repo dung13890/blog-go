@@ -4,9 +4,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
-	"time"
-
-	"gopkg.in/mgo.v2"
 )
 
 type config struct {
@@ -19,7 +16,6 @@ type config struct {
 
 var (
 	AppConfig config
-	session   *mgo.Session
 )
 
 func Init() {
@@ -28,7 +24,7 @@ func Init() {
 
 func loadConfig() config {
 	conf := config{}
-	file, err := ioutil.ReadFile("config/config.json")
+	file, err := ioutil.ReadFile("api/config/config.json")
 	if err != nil {
 		log.Fatalf("[loadConfig]: %s\n", err)
 	}
@@ -37,24 +33,4 @@ func loadConfig() config {
 		log.Fatalf("[loadConfig]: %s\n", err)
 	}
 	return conf
-}
-
-func createSession() *mgo.Session {
-	value, err := mgo.DialWithInfo(&mgo.DialInfo{
-		Addrs:    []string{AppConfig.MongoDBHost},
-		Username: AppConfig.MongoDBUser,
-		Password: AppConfig.MongoDBPwd,
-		Timeout:  60 * time.Second,
-	})
-	if err != nil {
-		log.Fatalf("[ConnectDB]: %s\n", err)
-	}
-	return value
-}
-
-func ConnectDb() {
-	if session == nil {
-		session = createSession()
-	}
-	return session
 }

@@ -17,7 +17,7 @@ type UserRepo struct {
 	C *mgo.Collection
 }
 
-func (u *UserRepo) GetAll() []User {
+func (u *UserRepo) Get() []User {
 	users := []User{}
 	iter := u.C.Find(nil).Iter()
 	user := User{}
@@ -25,4 +25,11 @@ func (u *UserRepo) GetAll() []User {
 		users = append(users, user)
 	}
 	return users
+}
+
+func (u *UserRepo) Create(user *User) error {
+	user.Id = bson.NewObjectId()
+	user.Date = time.Now()
+	err := u.C.Insert(&user)
+	return err
 }

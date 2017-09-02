@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/dung13890/microservices/api/handler"
+	"github.com/dung13890/blog-go/api/handler"
 	"github.com/labstack/echo"
 )
 

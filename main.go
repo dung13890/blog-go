@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/dung13890/microservices/api/config"
-	"github.com/dung13890/microservices/api/router"
+	"github.com/dung13890/blog-go/api/config"
+	"github.com/dung13890/blog-go/api/router"
 	"github.com/labstack/echo"
 )
 
