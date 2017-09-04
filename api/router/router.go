@@ -6,5 +6,6 @@ import (
 )
 
 func Init(e *echo.Echo) {
-	e.GET("/users", handler.ListUser)
+	user := &handler.User{}
+	e.GET("/users", user.Index)
 }

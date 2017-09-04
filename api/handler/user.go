@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	_ "log"
 	"net/http"
 
@@ -14,12 +15,19 @@ type response struct {
 	Items   []model.User `json:"items,omitempty"`
 }
 
-func ListUser(c echo.Context) error {
+type User struct{}
+
+func (u *User) Index(c echo.Context) error {
+	limit := c.QueryParam("limit")
+	offset := c.QueryParam("offset")
+	order := c.QueryParam("order")
+	sort := c.QueryParam("sort")
+	fmt.Println(sort)
 	context := config.NewContext()
-	u := context.DbCollection("users")
+	user := context.DbCollection("users")
 	defer context.Close()
-	repo := &model.UserRepo{u}
-	users := repo.Get()
+	repo := &model.UserRepo{user}
+	users := repo.Get(limit, offset, order, sort)
 
 	return c.JSON(http.StatusOK, users)
 }

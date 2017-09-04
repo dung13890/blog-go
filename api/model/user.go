@@ -17,7 +17,10 @@ type UserRepo struct {
 	C *mgo.Collection
 }
 
-func (u *UserRepo) Get() []User {
+func (u *UserRepo) Get(limit string, offset string, order string, sort string) []User {
+	if limit == "" {
+		limit = 0
+	}
 	users := []User{}
 	iter := u.C.Find(nil).Iter()
 	user := User{}
