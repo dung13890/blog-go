@@ -10,5 +10,5 @@ func main() {
 	config.Init()
 	e := echo.New()
 	router.Init(e)
-	e.Logger.Fatal(e.Start(":3000"))
+	e.Logger.Fatal(e.Start(config.AppConfig.Server))
 }
