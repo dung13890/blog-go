@@ -1,7 +1,7 @@
 package model
 
 import (
-	_ "fmt"
+	"fmt"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"strconv"
@@ -24,22 +24,36 @@ type UserRepo struct {
 	C *mgo.Collection
 }
 
-func (u *UserRepo) Get(q map[string][]string) []User {
+func (u *UserRepo) Get(q map[string][]string) ([]User, int) {
 	limit := 10
 	offset := 0
+	order := "id"
+	sort := ""
 	if value, ok := q["limit"]; ok {
 		limit, _ = strconv.Atoi(value[0])
 	}
 	if value, ok := q["offset"]; ok {
 		offset, _ = strconv.Atoi(value[0])
 	}
+	if value, ok := q["order"]; ok {
+		order = value[0]
+	}
+	if value, ok := q["sort"]; ok {
+		if value[0] == "asc" {
+			sort = ""
+		} else {
+			sort = "-"
+		}
+	}
+	fmt.Println(order, sort)
 	users := []User{}
-	iter := u.C.Find(nil).Limit(limit).Skip(offset).Iter()
+	count, _ := u.C.Find(nil).Count()
+	iter := u.C.Find(nil).Sort(sort + order).Limit(limit).Skip(offset).Iter()
 	user := User{}
 	for iter.Next(&user) {
 		users = append(users, user)
 	}
-	return users
+	return users, count
 }
 
 func (u *UserRepo) Create(user *User) error {

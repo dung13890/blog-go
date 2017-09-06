@@ -13,6 +13,7 @@ import (
 type response struct {
 	Message string       `json:"message,omitempty"`
 	Data    []model.User `json:"data,omitempty"`
+	Count   int          `json:"count,omitempty"`
 }
 
 type User struct{}
@@ -24,11 +25,12 @@ func (u *User) Index(c echo.Context) error {
 	user := context.DbCollection("users")
 	defer context.Close()
 	repo := &model.UserRepo{user}
-	users := repo.Get(query)
+	users, count := repo.Get(query)
 
 	return c.JSON(http.StatusOK, &response{
 		Message: "ok",
 		Data:    users,
+		Count:   count,
 	})
 }
 
