@@ -43,5 +43,6 @@ func (u *User) Create(c echo.Context) error {
 	defer context.Close()
 	repo := &model.UserRepo{user}
 	_ = repo.Create(&params)
-	return c.String(http.StatusCreated, "ok")
+
+	return c.String(http.StatusCreated, "success")
 }
