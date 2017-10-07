@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"strconv"
@@ -45,7 +44,6 @@ func (u *UserRepo) Get(q map[string][]string) ([]User, int) {
 			sort = "-"
 		}
 	}
-	fmt.Println(order, sort)
 	users := []User{}
 	count, _ := u.C.Find(nil).Count()
 	iter := u.C.Find(nil).Sort(sort + order).Limit(limit).Skip(offset).Iter()
