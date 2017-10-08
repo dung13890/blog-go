@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"fmt"
-	_ "log"
 	"net/http"
 
 	"github.com/dung13890/blog-go/api/config"
@@ -20,7 +18,6 @@ type User struct{}
 
 func (u *User) Index(c echo.Context) error {
 	query := c.QueryParams()
-	fmt.Println(query)
 	context := config.NewContext()
 	user := context.DbCollection("users")
 	defer context.Close()
@@ -37,7 +34,6 @@ func (u *User) Index(c echo.Context) error {
 func (u *User) Create(c echo.Context) error {
 	params := model.User{}
 	c.Bind(&params)
-	fmt.Println(params)
 	context := config.NewContext()
 	user := context.DbCollection("users")
 	defer context.Close()
