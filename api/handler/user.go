@@ -2,12 +2,10 @@ package handler
 
 import (
 	"fmt"
-	_ "log"
-	"net/http"
-
 	"github.com/dung13890/blog-go/api/config"
 	"github.com/dung13890/blog-go/api/model"
 	"github.com/labstack/echo"
+	"net/http"
 )
 
 type response struct {
@@ -45,4 +43,9 @@ func (u *User) Create(c echo.Context) error {
 	_ = repo.Create(&params)
 
 	return c.String(http.StatusCreated, "success")
+}
+
+func (u *User) Destroy(c echo.Context) error {
+	query := c.QueryParam(id)
+	fmt.Println(query)
 }
