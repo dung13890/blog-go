@@ -60,3 +60,8 @@ func (u *UserRepo) Create(user *User) error {
 	err := u.C.Insert(&user)
 	return err
 }
+
+func (u *UserRepo) Delete(id string) error {
+	err := u.C.RemoveId(bson.ObjectIdHex(id))
+	return err
+}
