@@ -46,6 +46,12 @@ func (u *User) Create(c echo.Context) error {
 }
 
 func (u *User) Destroy(c echo.Context) error {
-	query := c.QueryParam(id)
-	fmt.Println(query)
+	id := c.Param("id")
+	context := config.NewContext()
+	user := context.DbCollection("users")
+	defer context.Close()
+	repo := &model.UserRepo{user}
+	_ = repo.Delete(id)
+
+	return c.String(http.StatusCreated, "success")
 }

@@ -14,4 +14,5 @@ func Init(e *echo.Echo) {
 	user := &handler.User{}
 	e.GET("/users", user.Index)
 	e.POST("/users", user.Create)
+	e.DELETE("/users/:id", user.Destroy)
 }
