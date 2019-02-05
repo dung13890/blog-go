@@ -2,10 +2,11 @@ package handler
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/dung13890/blog-go/api/config"
 	"github.com/dung13890/blog-go/api/model"
 	"github.com/labstack/echo"
-	"net/http"
 )
 
 type response struct {
