@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/dung13890/blog-go/api/config"
 	"github.com/dung13890/blog-go/api/handler"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -15,7 +16,7 @@ func Init(e *echo.Echo) {
 	e.POST("/login", handler.Login)
 
 	r := e.Group("/api")
-	r.Use(middleware.JWT([]byte("secret")))
+	r.Use(middleware.JWT([]byte(config.AppConfig.Secret)))
 	r.GET("/info", handler.Restricted)
 
 	e.GET("/users", user.Index)

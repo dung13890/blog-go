@@ -5,7 +5,9 @@ import (
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/dung13890/blog-go/api/config"
 	"github.com/labstack/echo"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type authRequest struct {
@@ -13,12 +15,22 @@ type authRequest struct {
 	Password string `json:"password" form:"password" query:"password"`
 }
 
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+}
+
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
+
 func Login(c echo.Context) error {
 
 	params := authRequest{}
 	c.Bind(&params)
-
-	if params.Username == "dung" && params.Password == "password" {
+	hash, _ := HashPassword("password")
+	if params.Username == "dung" && CheckPasswordHash(params.Password, hash) {
 		token := jwt.New(jwt.SigningMethodHS256)
 
 		// Set claims
@@ -27,7 +39,7 @@ func Login(c echo.Context) error {
 		claims["admin"] = true
 		claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 
-		t, err := token.SignedString([]byte("secret"))
+		t, err := token.SignedString([]byte(config.AppConfig.Secret))
 
 		if err != nil {
 			return err
