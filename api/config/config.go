@@ -7,6 +7,7 @@ import (
 )
 
 type config struct {
+	Secret      string
 	Server      string
 	MongoDBHost string
 	MongoDBUser string
